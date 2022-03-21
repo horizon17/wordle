@@ -58,7 +58,6 @@ public class Main {
 						out = out.stream().filter(r -> black.stream().noneMatch(s -> r.contains(s)))
 								.collect(Collectors.toList());
 						console.printf("after black " + out.size() + "\n");
-						//console.printf(out.toString());
 					}
 					if (yell.size() != 0) {
 						out = out.stream().filter(r -> yell.stream().allMatch(s -> r.contains(s)))
@@ -78,6 +77,5 @@ public class Main {
 			}
 		}
 	}
-
 
 }
