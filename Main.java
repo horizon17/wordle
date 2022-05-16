@@ -31,29 +31,48 @@ public class Main {
 
 		HashMap<Integer, String> grn = new HashMap<>();
 		List<String> yell = new ArrayList<>();
+		List<String> black = new ArrayList<>();
 
 		List<String> arr = new ArrayList<>();
 		List<String> allW = Files.readAllLines(Path.of("C:/tmp/input/words.txt"));
-		arr = allW.stream().filter(r -> r.length()==5).collect(Collectors.toList());
+		arr = allW.stream().filter(r -> r.length() == 5).collect(Collectors.toList());
 		Console console = System.console();
 		while (true) {
-			String nextIn = console.readLine("Enter letters: ");
-			if (nextIn.contains("_")) {
-				yell.add(nextIn.replace("_", "")); // yellow letter without position
-			} else if (nextIn.equals("ff")) {
-				List<String> out = arr;
-				if (yell.size() != 0 ) {
-					out = arr.stream().filter(r -> yell.stream().allMatch(s -> r.contains(s)))
-							.collect(Collectors.toList());
+			String nextLine = console.readLine("Enter letters: ");
+			String[] sArray = nextLine.split(" ");
+			for (String nextIn : sArray) {
+				console.printf(nextIn + "\n");
+				if (nextIn.equals("zz")) {
+					return;
 				}
-				if (grn.size() != 0 ) {
-					out = out.stream().filter(r -> grn.entrySet().stream()
-							.allMatch(e -> r.substring(e.getKey(),e.getKey()+1).equals(e.getValue())))
-							.collect(Collectors.toList());
+				if (nextIn.contains("_")) {
+					yell.add(nextIn.replace("_", "")); // yellow letter without position
+				} else if (nextIn.length() == 1) { // wrong letter
+					black.add(nextIn);
+					console.printf("black=" + nextIn + "\n");
+				} else if (nextIn.equals("ff")) {
+					List<String> out = arr;
+					if (black.size() != 0) {
+						out = out.stream().filter(r -> black.stream().noneMatch(s -> r.contains(s)))
+								.collect(Collectors.toList());
+						console.printf("after black " + out.size() + "\n");
+						//console.printf(out.toString());
+					}
+					if (yell.size() != 0) {
+						out = out.stream().filter(r -> yell.stream().allMatch(s -> r.contains(s)))
+								.collect(Collectors.toList());
+						console.printf("after yell " + out.size() + "\n");
+					}
+					if (grn.size() != 0) {
+						out = out.stream().filter(r -> grn.entrySet().stream()
+								.allMatch(e -> r.substring(e.getKey(), e.getKey() + 1).equals(e.getValue())))
+								.collect(Collectors.toList());
+						console.printf("after grn " + out.size() + "\n");
+					}
+					console.printf(out.toString());
+				} else {
+					grn.put(Integer.valueOf(nextIn.substring(1, 2)), nextIn.substring(0, 1)); // green letter with position
 				}
-				console.printf(out.toString());
-			} else {
-				grn.put(Integer.valueOf(nextIn.substring(1,2)),nextIn.substring(0,1)); // green letter with position
 			}
 		}
 	}
