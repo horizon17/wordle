@@ -10,14 +10,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ helper for game https://www.nytimes.com/games/wordle/index.html
+ */
 public class Main {
 
 	/**
 	 * WORDLE:
-	 * ввести зеленые буквы: s2 - буква s на позици 2
-	 * ввести желтые буквы: z_ буква z без позиции
-	 * вывести подходящие слова - ff
-	 * продолжить ввод
+	 * # how to type green letters: s2 - letter s for position 2
+	 * # how to type yellow letters: z_ letter z without position
+	 * output all matching words: ff
 	 *
 	 */
 	public static void main(String[] args) throws IOException {
